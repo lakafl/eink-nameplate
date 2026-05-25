@@ -1,0 +1,254 @@
+.container {
+  padding: 32rpx 24rpx;
+  min-height: 100vh;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  font-size: 34rpx;
+  font-weight: 500;
+  color: var(--gray-900);
+  margin-bottom: 24rpx;
+  display: block;
+}
+
+/* Input group */
+.input-group {
+  margin-bottom: 24rpx;
+}
+
+.input-group-last {
+  margin-bottom: 0;
+}
+
+.input-label {
+  font-size: 24rpx;
+  color: var(--google-blue);
+  font-weight: 500;
+  margin-bottom: 12rpx;
+  display: block;
+  letter-spacing: 1rpx;
+}
+
+.input {
+  width: 100%;
+  height: 88rpx;
+  background: var(--gray-50);
+  border: 2rpx solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 0 24rpx;
+  font-size: 30rpx;
+  color: var(--gray-900);
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: var(--google-blue);
+  background: #fff;
+}
+
+.input-center {
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: 500;
+  height: 100rpx;
+}
+
+.input-right {
+  text-align: right;
+}
+
+/* Font scale slider */
+.scale-row {
+  display: flex;
+  align-items: center;
+  margin-top: 12rpx;
+  gap: 12rpx;
+}
+
+.scale-label {
+  font-size: 22rpx;
+  color: var(--gray-500);
+  width: 48rpx;
+  flex-shrink: 0;
+}
+
+.scale-slider {
+  flex: 1;
+}
+
+.scale-val {
+  font-size: 22rpx;
+  color: var(--gray-700);
+  width: 64rpx;
+  text-align: right;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+/* Size picker */
+.size-card {
+  background: #E8F0FE;
+}
+
+/* Template picker */
+.template-card {
+  background: #E6F4EA;
+}
+
+.template-preview-dot {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.template-desc {
+  display: block;
+  font-size: 22rpx;
+  color: var(--gray-500);
+  margin-top: 10rpx;
+}
+
+/* Shared picker row */
+.picker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 88rpx;
+  background: #fff;
+  border: 2rpx solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  gap: 16rpx;
+}
+
+.picker-text {
+  font-size: 30rpx;
+  color: var(--gray-900);
+  flex: 1;
+}
+
+.picker-arrow {
+  font-size: 24rpx;
+  color: var(--google-blue);
+  flex-shrink: 0;
+}
+
+/* Preview */
+.preview-box {
+  width: 100%;
+  /* aspect-ratio set via inline style from data */
+  background: var(--gray-200);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.preview-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Send button */
+.send-fab {
+  background: var(--google-blue);
+  margin-top: 8rpx;
+}
+
+.send-fab[disabled] {
+  background: var(--gray-300);
+  box-shadow: none;
+}
+
+.fab {
+  width: 100%;
+  height: 96rpx;
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6rpx 20rpx rgba(66,133,244,0.3);
+  border: none;
+  line-height: 96rpx;
+  padding: 0;
+}
+
+.fab:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.fab-text {
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+}
+
+/* Progress */
+.progress-wrap {
+  margin-top: 20rpx;
+  padding: 0 8rpx;
+}
+
+.progress-track {
+  height: 8rpx;
+  background: var(--gray-200);
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--google-blue);
+  border-radius: 4rpx;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Chip */
+.chip {
+  margin-top: 24rpx;
+  padding: 20rpx 24rpx;
+  border-radius: var(--radius-sm);
+  font-size: 26rpx;
+  text-align: center;
+}
+
+.chip.info {
+  background: #E8F0FE;
+  color: #1967D2;
+}
+
+.chip.success {
+  background: #E6F4EA;
+  color: #137333;
+}
+
+.chip.error {
+  background: #FCE8E6;
+  color: #C5221F;
+}
+
+/* Text button */
+.text-btn {
+  text-align: center;
+  padding: 32rpx 0;
+  font-size: 28rpx;
+  color: var(--gray-500);
+  letter-spacing: 1rpx;
+}
+
+.text-btn:active {
+  color: var(--google-red);
+}

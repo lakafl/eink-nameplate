@@ -1,0 +1,38 @@
+# PlatformIO build output
+.pio/
+.pioenvs/
+.piolibdeps/
+cmake-build-*/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Dependencies
+node_modules/
+
+# Build artifacts
+*.o
+*.elf
+*.bin
+*.hex
+*.map
+
+# Temp files
+*.tmp
+*.log
+
+# Packages
+*.zip
+*.rar
+
+# HBuilderX
+HBuilderX/

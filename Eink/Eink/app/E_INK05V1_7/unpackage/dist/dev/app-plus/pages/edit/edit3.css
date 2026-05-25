@@ -1,0 +1,369 @@
+
+.page-container {
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		background-color: #f5f5f5;
+}
+
+	/* 顶部区域样式 */
+.top-section {
+		height: 12vh;
+		background: linear-gradient(135deg, #87CEEB 0%, #B0E0E6 100%);
+		border-radius: 0 0 0.9375rem 0.9375rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.1);
+}
+.app-title {
+		font-size: 1.25rem;
+		font-weight: bold;
+		color: #ffffff;
+		text-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
+
+	/* 蓝牙状态样式 */
+.bluetooth-status {
+		position: absolute;
+		right: 0.9375rem;
+		bottom: 0.625rem;
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		padding: 0.25rem 0.5rem;
+		background-color: rgba(255, 255, 255, 0.2);
+		border-radius: 0.625rem;
+		-webkit-backdrop-filter: blur(0.3125rem);
+		        backdrop-filter: blur(0.3125rem);
+}
+.bluetooth-status.connected {
+		background-color: rgba(76, 175, 80, 0.3);
+}
+.status-icon {
+		font-size: 0.75rem;
+		color: #ffffff;
+}
+.bluetooth-status.connected .status-icon {
+		color: #4CAF50;
+}
+.status-text {
+		font-size: 0.625rem;
+		color: #ffffff;
+		font-weight: 500;
+}
+.connect-btn {
+		margin-left: 0.3125rem;
+		padding: 0.125rem 0.375rem;
+		background-color: #2196F3;
+		color: #ffffff;
+		border: none;
+		border-radius: 0.375rem;
+		font-size: 0.5625rem;
+		font-weight: 500;
+}
+
+	/* 编辑区域样式 */
+.edit-area {
+		flex: 1;
+		padding: 0.625rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+}
+.template-container {
+		position: relative;
+		width: 100%;
+		max-width: 100%;
+		height: calc(100vw * 0.75);
+		border-radius: 0.625rem;
+		overflow: hidden;
+		box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+		background-color: #ffffff;
+}
+.template-image {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+}
+
+	/* 单位文字预览样式 */
+.unit-text-preview {
+		position: absolute;
+		top: 13%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+		-webkit-user-select: none;
+		        user-select: none;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+		max-width: 90%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		line-height: 1.2;
+}
+	
+	/* 姓名文字预览样式 */
+.name-text-preview {
+		position: absolute;
+		top: 60%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+		-webkit-user-select: none;
+		        user-select: none;
+		text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+		max-width: 90%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		line-height: 1.2;
+}
+
+	/* 隐藏的Canvas */
+.hidden-canvas {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+		visibility: hidden;
+}
+
+	/* 工具栏样式 */
+.toolbar {
+		height: 50vh;
+		background-color: #ffffff;
+		border-radius: 0.9375rem 0.9375rem 0 0;
+		padding: 0.9375rem;
+		box-shadow: 0 -0.125rem 0.375rem rgba(0, 0, 0, 0.1);
+		overflow-y: auto;
+}
+.input-section {
+		margin-bottom: 0.9375rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+}
+.input-label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: #333333;
+		margin-right: 0.625rem;
+}
+.text-input {
+		width: 70%;
+		max-width: 15.625rem;
+		height: 2.5rem;
+		padding: 0 0.625rem;
+		border: 0.0625rem solid #e9ecef;
+		border-radius: 0.375rem;
+		font-size: 0.875rem;
+		background-color: #f8f9fa;
+}
+.section-label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: #333333;
+		margin-bottom: 0.625rem;
+		display: block;
+}
+.font-size-section, .font-section, .color-section {
+		margin-bottom: 0.9375rem;
+}
+.font-size-control {
+		display: flex;
+		align-items: center;
+		gap: 0.625rem;
+		margin-bottom: 0.46875rem;
+}
+.size-label {
+		font-size: 0.75rem;
+		color: #666666;
+		font-weight: 500;
+		min-width: 1.875rem;
+		text-align: center;
+}
+.font-size-slider {
+		flex: 1;
+		height: 1.25rem;
+}
+.size-display {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: #87CEEB;
+		text-align: center;
+		background-color: #f8f9fa;
+		padding: 0.3125rem 0.625rem;
+		border-radius: 0.625rem;
+		border: 0.0625rem solid #87CEEB;
+}
+.font-options, .color-options {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.46875rem;
+}
+.font-option {
+		padding: 0.46875rem 0.625rem;
+		border: 0.0625rem solid #e9ecef;
+		border-radius: 0.375rem;
+		background-color: #f8f9fa;
+		transition: all 0.2s ease;
+}
+.font-option.active {
+		border-color: #87CEEB;
+		background-color: #e3f2fd;
+}
+.font-preview {
+		font-size: 0.75rem;
+		color: #333333;
+}
+.color-option {
+		display: flex;
+		align-items: center;
+		padding: 0.46875rem 0.625rem;
+		border: 0.0625rem solid #e9ecef;
+		border-radius: 0.375rem;
+		background-color: #f8f9fa;
+		transition: all 0.2s ease;
+}
+.color-option.active {
+		border-color: #87CEEB;
+		background-color: #e3f2fd;
+}
+.color-circle {
+		width: 0.9375rem;
+		height: 0.9375rem;
+		border-radius: 50%;
+		margin-right: 0.46875rem;
+		border: 0.0625rem solid #ddd;
+}
+.color-name {
+		font-size: 0.75rem;
+		color: #333333;
+}
+.action-buttons {
+		display: flex;
+		gap: 0.625rem;
+		justify-content: space-between;
+		margin-top: 0.9375rem;
+		width: 100%;
+}
+.action-btn {
+		flex: 1;
+		height: 2.5rem;
+		border-radius: 0.375rem;
+		font-size: 0.875rem;
+		font-weight: 600;
+		border: none;
+		transition: all 0.2s ease;
+}
+.clear-btn {
+		background-color: #ff6b6b;
+		color: #ffffff;
+}
+.send-btn {
+		background-color: #87CEEB;
+		color: #ffffff;
+}
+.send-btn:disabled {
+		background-color: #cccccc;
+		color: #999999;
+}
+.action-btn:active {
+		transform: scale(0.95);
+}
+	
+	/* 发送状态样式 */
+.sending-status {
+		margin: 0.625rem 0;
+		padding: 0.625rem;
+		background-color: #f8f9fa;
+		border-radius: 0.375rem;
+		border: 0.0625rem solid #87CEEB;
+}
+.sending-indicator {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.3125rem;
+}
+.sending-text {
+		font-size: 0.875rem;
+		color: #87CEEB;
+		font-weight: 600;
+}
+.progress-container {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		gap: 0.46875rem;
+		margin-top: 0.3125rem;
+}
+.progress-bar {
+		flex: 1;
+		height: 0.25rem;
+		background-color: #e9ecef;
+		border-radius: 0.125rem;
+		overflow: hidden;
+}
+.progress-fill {
+		height: 100%;
+		background-color: #87CEEB;
+		border-radius: 0.125rem;
+		transition: width 0.3s ease;
+}
+.progress-text {
+		font-size: 0.75rem;
+		color: #87CEEB;
+		font-weight: 600;
+		min-width: 1.875rem;
+		text-align: center;
+}
+	
+	/* 处理状态样式 */
+.processing-status {
+		margin: 0.625rem 0;
+		padding: 0.625rem;
+		background-color: #f8f9fa;
+		border-radius: 0.375rem;
+		border: 0.0625rem solid #87CEEB;
+}
+.processing-indicator {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.46875rem;
+}
+.processing-text {
+		font-size: 0.875rem;
+		color: #87CEEB;
+		font-weight: 600;
+}
+.loading-dots {
+		display: flex;
+		gap: 0.125rem;
+}
+.dot {
+		font-size: 1rem;
+		color: #87CEEB;
+		font-weight: bold;
+		animation: loading 1.5s infinite;
+}
+.dot:nth-child(2) {
+		animation-delay: 0.2s;
+}
+.dot:nth-child(3) {
+		animation-delay: 0.4s;
+}
+@keyframes loading {
+0%, 20% {
+			opacity: 0;
+}
+50% {
+			opacity: 1;
+}
+100% {
+			opacity: 0;
+}
+}
+	

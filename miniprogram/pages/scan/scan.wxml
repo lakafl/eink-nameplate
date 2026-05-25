@@ -1,0 +1,59 @@
+<view class="container">
+  <!-- Status card -->
+  <view class="card status-card">
+    <view class="status-dot {{connected ? 'on' : ''}}"></view>
+    <view class="status-body">
+      <text class="status-title">{{connected ? '已连接' : '未连接'}}</text>
+      <text class="status-sub" wx:if="{{connected}}">{{deviceName}}</text>
+      <text class="status-sub" wx:else>查找附近的设备</text>
+    </view>
+  </view>
+
+  <!-- Scan area -->
+  <view class="card scan-card">
+    <text class="card-title">蓝牙设备</text>
+    <text class="card-desc">扫描电子座牌</text>
+
+    <!-- Device list -->
+    <view class="device-list" wx:if="{{devices.length > 0}}">
+      <view class="device-item" wx:for="{{devices}}" wx:key="deviceId"
+        bindtap="connectDevice" data-device="{{item}}">
+        <view class="device-icon">
+          <text class="device-icon-text">BT</text>
+        </view>
+        <view class="device-info">
+          <text class="device-name">{{item.name || '未知设备'}}</text>
+          <text class="device-meta">{{item.RSSI}} dBm</text>
+        </view>
+        <text class="device-arrow">&#8250;</text>
+      </view>
+    </view>
+
+    <!-- Empty -->
+    <view class="empty-state" wx:if="{{!scanning && devices.length === 0 && !connected}}">
+      <text class="empty-text">未发现设备</text>
+      <text class="empty-hint">请确保设备已上电</text>
+    </view>
+
+    <!-- Scanning indicator -->
+    <view class="scanning-indicator" wx:if="{{scanning}}">
+      <view class="scanning-pulse"></view>
+      <text class="scanning-text">正在扫描...</text>
+    </view>
+  </view>
+
+  <!-- Scan button -->
+  <button class="fab" bindtap="startScanning" disabled="{{scanning || connected}}">
+    <text class="fab-text">{{scanning ? '扫描中' : '扫描设备'}}</text>
+  </button>
+
+  <!-- Next button -->
+  <button class="fab next-fab" wx:if="{{connected}}" bindtap="goEditor">
+    <text class="fab-text">编辑座牌</text>
+  </button>
+
+  <!-- Error -->
+  <view class="snackbar" wx:if="{{errorMsg}}">
+    <text>{{errorMsg}}</text>
+  </view>
+</view>

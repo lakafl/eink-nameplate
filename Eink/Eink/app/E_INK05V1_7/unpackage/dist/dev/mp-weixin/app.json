@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/template/template",
+    "pages/template/template75",
+    "pages/template/blank",
+    "pages/edit/edit",
+    "pages/edit/edit2",
+    "pages/edit/edit3",
+    "pages/edit/edit4",
+    "pages/edit/edit75"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "SWU_EPAPER",
+    "navigationBarBackgroundColor": "#87CEEB",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {}
+}

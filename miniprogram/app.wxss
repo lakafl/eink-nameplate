@@ -1,0 +1,22 @@
+page {
+  --google-blue: #4285F4;
+  --google-green: #34A853;
+  --google-yellow: #FBBC04;
+  --google-red: #EA4335;
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-200: #EEEEEE;
+  --gray-300: #E0E0E0;
+  --gray-500: #9E9E9E;
+  --gray-700: #616161;
+  --gray-900: #212121;
+  --radius: 16rpx;
+  --radius-sm: 8rpx;
+  --shadow: 0 2rpx 8rpx rgba(0,0,0,0.08);
+  --shadow-lg: 0 4rpx 16rpx rgba(0,0,0,0.12);
+
+  background: var(--gray-50);
+  font-family: -apple-system, BlinkMacSystemFont, 'Google Sans', Roboto, 'PingFang SC', sans-serif;
+  font-size: 28rpx;
+  color: var(--gray-900);
+}

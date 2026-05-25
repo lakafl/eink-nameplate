@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>墨水屏电子座牌 - 产品海报</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .poster {
+            width: 800px;
+            height: 1120px;
+            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            padding: 50px 60px 30px;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 48px;
+            font-weight: 300;
+            color: #333;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 22px;
+            color: #666;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+        
+        .accent-line {
+            height: 4px;
+            width: 120px;
+            background-color: #e8a0a0;
+            margin-bottom: 30px;
+        }
+        
+        .product-showcase {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 60px;
+            margin-bottom: 40px;
+        }
+        
+        .product-image {
+            width: 48%;
+            height: 320px;
+            background-color: #f0f0f0;
+            border: 1px dashed #ccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            font-size: 16px;
+        }
+        
+        .product-image i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #bbb;
+        }
+        
+        .app-showcase {
+            padding: 0 60px;
+            margin-bottom: 50px;
+        }
+        
+        .app-images {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .app-image {
+            width: 32%;
+            height: 220px;
+            background-color: #f0f0f0;
+            border: 1px dashed #ccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .app-image i {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #bbb;
+        }
+        
+        .features {
+            padding: 0 60px;
+            margin-bottom: 50px;
+        }
+        
+        .features h2 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #333;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .features h2:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #e8a0a0;
+        }
+        
+        .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .feature-item {
+            width: 48%;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-icon {
+            color: #e8a0a0;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .feature-text {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .footer {
+            padding: 0 60px;
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+        }
+        
+        .contact {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .logo {
+            font-size: 24px;
+            color: #333;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .contact-info {
+            text-align: right;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .contact-info p {
+            margin-bottom: 5px;
+        }
+        
+        /* 装饰元素 */
+        .decoration {
+            position: absolute;
+            z-index: 0;
+        }
+        
+        .decoration-1 {
+            width: 200px;
+            height: 200px;
+            background-color: rgba(232, 160, 160, 0.05);
+            border-radius: 50%;
+            top: -80px;
+            right: -80px;
+        }
+        
+        .decoration-2 {
+            width: 120px;
+            height: 120px;
+            background-color: rgba(232, 160, 160, 0.03);
+            border-radius: 50%;
+            bottom: 100px;
+            left: -40px;
+        }
+        
+        .decoration-3 {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(232, 160, 160, 0.04);
+            border-radius: 50%;
+            top: 300px;
+            left: 50px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="poster">
+        <div class="decoration decoration-1"></div>
+        <div class="decoration decoration-2"></div>
+        <div class="decoration decoration-3"></div>
+        
+        <div class="header">
+            <h1>墨水屏电子座牌</h1>
+            <div class="subtitle">智能办公 · 环保高效 · 极简设计</div>
+            <div class="accent-line"></div>
+        </div>
+        
+        <div class="product-showcase">
+            <div class="product-image">
+                <i class="fas fa-tablet-alt"></i>
+                <p>产品正面照片位置</p>
+            </div>
+            <div class="product-image">
+                <i class="fas fa-mobile-alt"></i>
+                <p>产品使用场景照片位置</p>
+            </div>
+        </div>
+        
+        <div class="app-showcase">
+            <div class="app-images">
+                <div class="app-image">
+                    <i class="fas fa-mobile"></i>
+                    <p>APP主页截图位置</p>
+                </div>
+                <div class="app-image">
+                    <i class="fas fa-cog"></i>
+                    <p>APP设置页面截图位置</p>
+                </div>
+                <div class="app-image">
+                    <i class="fas fa-edit"></i>
+                    <p>APP编辑页面截图位置</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h2>产品特性</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-battery-full"></i></div>
+                    <div class="feature-text">超低功耗，一次充电可使用数月</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-eye"></i></div>
+                    <div class="feature-text">类纸显示技术，舒适护眼</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-wifi"></i></div>
+                    <div class="feature-text">无线更新内容，远程管理</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-palette"></i></div>
+                    <div class="feature-text">多种模板，个性化定制</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="feature-text">环保材料，减少纸张浪费</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+                    <div class="feature-text">双模显示，支持黑白与彩色模式</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="contact">
+                <div class="logo">INK-DISPLAY</div>
+                <div class="contact-info">
+                    <p>www.ink-display.com</p>
+                    <p>contact@ink-display.com</p>
+                    <p>400-888-8888</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "pages/scan/scan",
+    "pages/editor/editor"
+  ],
+  "window": {
+    "navigationBarTitleText": "电子座牌",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black"
+  }
+}

@@ -1,0 +1,1 @@
+<view class="page-container"><view class="top-section"><text class="app-title">SWU_EPAPER</text></view><view class="blank-area"><view class="blank-content"><text class="blank-title">请先选择墨水屏尺寸</text></view></view><view class="bottom-button" bindtap="{{a}}"><text class="button-text">HOMEpage</text></view></view>

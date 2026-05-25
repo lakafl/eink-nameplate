@@ -1,0 +1,96 @@
+<view class="container">
+  <!-- Screen size selector -->
+  <view class="card size-card">
+    <text class="card-title">屏幕尺寸</text>
+    <picker mode="selector" range="{{displaySizes}}" range-key="label"
+      value="{{displayIndex}}" bindchange="onSizeChange">
+      <view class="picker-row">
+        <text class="picker-text">{{displaySizes[displayIndex].label}}</text>
+        <text class="picker-arrow">&#9662;</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- Template selector -->
+  <view class="card template-card">
+    <text class="card-title">模板样式</text>
+    <picker mode="selector" range="{{templates}}" range-key="name"
+      value="{{templateIndex}}" bindchange="onTemplateChange">
+      <view class="picker-row">
+        <view class="template-preview-dot" style="background:{{templates[templateIndex].preview}}"></view>
+        <text class="picker-text">{{templates[templateIndex].name}}</text>
+        <text class="picker-arrow">&#9662;</text>
+      </view>
+    </picker>
+    <text class="template-desc">{{templates[templateIndex].desc}}</text>
+  </view>
+
+  <!-- Form card -->
+  <view class="card">
+    <text class="card-title">座牌内容</text>
+
+    <view class="input-group">
+      <text class="input-label">单位名称</text>
+      <input class="input" placeholder="如：西南大学" value="{{topText}}"
+        bindinput="onTopInput" maxlength="30"/>
+      <view class="scale-row">
+        <text class="scale-label">字号</text>
+        <slider class="scale-slider" min="0.5" max="2.0" step="0.05" value="{{topScale}}"
+          bindchange="onTopScaleChange" block-size="18" activeColor="#4285F4"/>
+        <text class="scale-val">{{Math.round(topScale * 100)}}%</text>
+      </view>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">姓名</text>
+      <input class="input input-center" placeholder="如：张三" value="{{centerText}}"
+        bindinput="onCenterInput" maxlength="10"/>
+      <view class="scale-row">
+        <text class="scale-label">字号</text>
+        <slider class="scale-slider" min="0.5" max="2.0" step="0.05" value="{{centerScale}}"
+          bindchange="onCenterScaleChange" block-size="18" activeColor="#34A853"/>
+        <text class="scale-val">{{Math.round(centerScale * 100)}}%</text>
+      </view>
+    </view>
+
+    <view class="input-group input-group-last">
+      <text class="input-label">职务</text>
+      <input class="input input-right" placeholder="如：学生" value="{{bottomText}}"
+        bindinput="onBottomInput" maxlength="20"/>
+      <view class="scale-row">
+        <text class="scale-label">字号</text>
+        <slider class="scale-slider" min="0.5" max="2.0" step="0.05" value="{{bottomScale}}"
+          bindchange="onBottomScaleChange" block-size="18" activeColor="#EA4335"/>
+        <text class="scale-val">{{Math.round(bottomScale * 100)}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Preview card -->
+  <view class="card">
+    <text class="card-title">预览</text>
+    <view class="preview-box" style="aspect-ratio:{{epdWidth}}/{{epdHeight}}">
+      <canvas type="2d" id="editCanvas" class="preview-canvas"></canvas>
+    </view>
+  </view>
+
+  <!-- Send button -->
+  <button class="fab send-fab" bindtap="sendToDevice" disabled="{{sending || !bleReady}}">
+    <text class="fab-text">{{sending ? '发送中 ' + progress + '%' : '发送到设备'}}</text>
+  </button>
+
+  <!-- Progress -->
+  <view class="progress-wrap" wx:if="{{sending}}">
+    <view class="progress-track">
+      <view class="progress-fill" style="width:{{progress}}%"></view>
+    </view>
+  </view>
+
+  <!-- Status chip -->
+  <view class="chip {{statusType}}" wx:if="{{statusMsg}}">
+    <text>{{statusMsg}}</text>
+  </view>
+
+  <!-- Disconnect -->
+  <view class="text-btn" bindtap="goBack">断开连接</view>
+</view>

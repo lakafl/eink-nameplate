@@ -1,0 +1,70 @@
+
+.page-container {
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		background-color: #f5f5f5;
+}
+
+	/* 顶部区域样式 */
+.top-section {
+		height: 15vh;
+		background: linear-gradient(135deg, #87CEEB 0%, #B0E0E6 100%);
+		border-radius: 0 0 0.9375rem 0.9375rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.1);
+}
+.app-title {
+		font-size: 1.5rem;
+		font-weight: bold;
+		color: #ffffff;
+		text-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
+
+	/* 模板图片区域样式 */
+.template-area {
+		flex: 1;
+		padding: 1.25rem 0.9375rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+}
+.template-image {
+		width: 100%;
+		max-width: 18.75rem;
+		height: 12.5rem;
+		border-radius: 0.625rem;
+		box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+		background-color: #ffffff;
+		object-fit: contain;
+		cursor: pointer;
+		transition: all 0.3s ease;
+}
+.template-image:active {
+		transform: scale(0.98);
+		box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.2);
+}
+
+	/* 底部按钮样式 */
+.bottom-button {
+		height: 8vh;
+		background: linear-gradient(135deg, #87CEEB 0%, #B0E0E6 100%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0.625rem 0.625rem 0 0;
+		box-shadow: 0 -0.125rem 0.375rem rgba(0, 0, 0, 0.1);
+		transition: all 0.3s ease;
+}
+.bottom-button:active {
+		background: linear-gradient(135deg, #7BC4E8 0%, #A8D8E6 100%);
+		transform: translateY(0.0625rem);
+}
+.button-text {
+		font-size: 1.125rem;
+		font-weight: 600;
+		color: #ffffff;
+		text-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+}
