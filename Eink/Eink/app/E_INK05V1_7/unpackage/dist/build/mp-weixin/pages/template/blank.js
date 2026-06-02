@@ -1,1 +1,0 @@
-"use strict";const e=require("../../common/vendor.js"),o={data:()=>({}),onLoad(){},methods:{goToHome(){e.index.navigateBack({delta:1,success:function(e){},fail:function(o){e.index.reLaunch({url:"/pages/index/index"})}})}}};const n=e._export_sfc(o,[["render",function(o,n,t,a,c,r){return{a:e.o(((...e)=>r.goToHome&&r.goToHome(...e)))}}]]);wx.createPage(n);

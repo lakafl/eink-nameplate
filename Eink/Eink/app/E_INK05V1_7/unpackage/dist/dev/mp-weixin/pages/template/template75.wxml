@@ -1,1 +1,0 @@
-<view class="page-container"><view class="top-section"><text class="app-title">SWU_EPAPER</text></view><view class="template-area"><image class="template-image" src="{{a}}" mode="aspectFit" binderror="{{b}}" bindtap="{{c}}"></image></view><view class="bottom-button" bindtap="{{d}}"><text class="button-text">HOMEpage</text></view></view>
