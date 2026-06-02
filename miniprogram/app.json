@@ -7,5 +7,10 @@
     "navigationBarTitleText": "电子座牌",
     "navigationBarBackgroundColor": "#FFFFFF",
     "navigationBarTextStyle": "black"
+  },
+  "permission": {
+    "scope.bluetooth": {
+      "desc": "用于搜索并连接附近的电子座牌设备，传输显示内容"
+    }
   }
 }

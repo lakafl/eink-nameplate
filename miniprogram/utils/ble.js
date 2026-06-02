@@ -259,7 +259,13 @@ function _dispatchACK(data) {
 // ★ 核心修复：先注册监听器槽位，再发包，ACK 无论何时到来都不会丢失
 function waitForACK(type, timeout, expectedParam = null) {
   return new Promise((resolve) => {
-    // 先检查是否已经有提前到达的 ACK（同类型+参数）
+    // Clean up stale pre-registered listeners (same type+param, resolve=null)
+    const staleIdx = _ackListeners.findIndex(
+      l => l.type === type && l.expectedParam === expectedParam && l.resolve === null
+    );
+    if (staleIdx !== -1) _ackListeners.splice(staleIdx, 1);
+
+    // Check for ACK that arrived before this call (received=true, no resolve)
     const existingIdx = _ackListeners.findIndex(
       l => l.type === type && l.expectedParam === expectedParam && l.received && !l.resolve
     );
@@ -272,11 +278,7 @@ function waitForACK(type, timeout, expectedParam = null) {
 
     // 正常注册监听器
     const listener = {
-      type,
-      expectedParam,
-      received: false,
-      resolve: null,
-      timer: null
+      type, expectedParam, received: false, resolve: null, timer: null
     };
 
     listener.timer = setTimeout(() => {
@@ -438,11 +440,21 @@ async function sendBitmap(blackData, redData, onProgress) {
   const hasRed   = redData   && redData.byteLength > 0;
   const totalLayerCount = (hasBlack ? 1 : 0) + (hasRed ? 1 : 0);
 
-  // ★ 提前注册 Refresh ACK 监听槽
   preRegisterACK(ACK_REFRESHED);
+  // Clear any stale listeners from previous transmissions
+  _ackListeners.length = 0;
 
-  if (hasBlack) await sendLayer(0, blackData, totalLayerCount, onProgress);
-  if (hasRed)   await sendLayer(1, redData,   totalLayerCount, onProgress);
+  // Brief pause to let ESP32 settle after previous refresh cycle
+  await sleep(500);
+
+  if (hasBlack) {
+    await sendLayer(0, blackData, totalLayerCount, onProgress);
+    // Inter-layer pause: give ESP32 time to process and BLE buffers to drain
+    await sleep(800);
+  }
+  if (hasRed) {
+    await sendLayer(1, redData, totalLayerCount, onProgress);
+  }
 
   const refreshed = await waitForACK(ACK_REFRESHED, 60000);
   if (!refreshed) console.warn('[BLE] Refresh ACK timeout');
