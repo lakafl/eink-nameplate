@@ -347,12 +347,65 @@ async function prepareConnection(devId) {
 }
 
 // ============================================================
+// RLE 压缩：字节级 run-length encoding
+// 格式：[count-1][value] 对，count 范围 1-256，存储为 0-255
+// 压缩后体积 ≥ 原始体积时返回 null，外部走未压缩路径
+// ============================================================
+
+function compressRLE(data) {
+  const bytes = new Uint8Array(data);
+  const out = [];
+  let i = 0;
+
+  while (i < bytes.length) {
+    const value = bytes[i];
+    let run = 1;
+    while (i + run < bytes.length && bytes[i + run] === value && run < 256) {
+      run++;
+    }
+    out.push(run - 1, value);  // count-1: 0=1个, 255=256个
+    i += run;
+  }
+
+  if (out.length >= bytes.length) return null;      // 压缩没有收益
+  return new Uint8Array(out).buffer;
+}
+
+// Internal helper: one-pass encode (uncompressed fallback baked in)
+function preparePayload(layerType, bitmapData) {
+  const originalSize = bitmapData.byteLength;
+  const compressed = compressRLE(bitmapData);
+
+  if (compressed) {
+    const ratio = Math.round((1 - compressed.byteLength / originalSize) * 100);
+    console.log(`[BLE] Layer ${layerType} RLE: ${originalSize} -> ${compressed.byteLength} bytes (${ratio}%)`);
+    return {
+      data: compressed,
+      dataSize: compressed.byteLength,
+      originSize: originalSize,
+      layerByte: layerType | 0x80        // bit7 = compressed
+    };
+  }
+
+  console.log(`[BLE] Layer ${layerType}: no RLE gain, sending uncompressed`);
+  return {
+    data: bitmapData,
+    dataSize: originalSize,
+    originSize: originalSize,
+    layerByte: layerType                 // bit7 clear
+  };
+}
+
+// ============================================================
 // Send bitmap layers
 // ============================================================
 
 async function sendLayer(layerType, bitmapData, totalLayerCount, onProgress) {
+  // 压缩预处理
+  const payload = preparePayload(layerType, bitmapData);
+
   const chunkPayloadSize = mtu - 3;
-  const totalChunks = Math.ceil(bitmapData.byteLength / chunkPayloadSize);
+  const totalChunks = Math.ceil(payload.dataSize / chunkPayloadSize);
 
   // ★ 修复：MTU=20 时每包仅 17 字节，WRITE_NR 高速并发严重丢包。
   //   根据实际 MTU 动态调整并发数和包间延迟：
@@ -362,19 +415,21 @@ async function sendLayer(layerType, bitmapData, totalLayerCount, onProgress) {
   const CONCURRENT   = mtu <= 23 ? 1  : mtu <= 100 ? 2  : 4;
   const BATCH_DELAY  = mtu <= 23 ? 10 : mtu <= 100 ? 5  : 0;  // ms
 
-  console.log(`[BLE] Layer ${layerType}: size=${bitmapData.byteLength} chunks=${totalChunks} mtu=${mtu} concurrent=${CONCURRENT} batchDelay=${BATCH_DELAY}ms`);
+  console.log(`[BLE] Layer ${layerType}: size=${payload.dataSize} chunks=${totalChunks} mtu=${mtu} concurrent=${CONCURRENT} batchDelay=${BATCH_DELAY}ms`);
 
+  // ★ ACK_LAYER_DONE 仍用原始 layerType（不含 bit7），ESP32 解压后会恢复
   preRegisterACK(ACK_LAYER_DONE, layerType);
 
-  // 发送 Header
+  // 发送 Header — originSize 始终是未压缩尺寸，ESP32 用于校验
   const header = new ArrayBuffer(10);
   const h = new Uint8Array(header);
   h[0] = MAGIC_0; h[1] = MAGIC_1;
-  h[2] = totalLayerCount; h[3] = layerType;
-  h[4] = bitmapData.byteLength & 0xFF;
-  h[5] = (bitmapData.byteLength >> 8) & 0xFF;
-  h[6] = (bitmapData.byteLength >> 16) & 0xFF;
-  h[7] = (bitmapData.byteLength >> 24) & 0xFF;
+  h[2] = totalLayerCount;
+  h[3] = payload.layerByte;                // bit7 = compression flag
+  h[4] = payload.dataSize & 0xFF;          // 传输数据的实际字节数（压缩后或原始）
+  h[5] = (payload.dataSize >> 8) & 0xFF;
+  h[6] = (payload.dataSize >> 16) & 0xFF;
+  h[7] = (payload.dataSize >> 24) & 0xFF;
   h[8] = totalChunks & 0xFF;
   h[9] = (totalChunks >> 8) & 0xFF;
 
@@ -383,7 +438,7 @@ async function sendLayer(layerType, bitmapData, totalLayerCount, onProgress) {
   if (!headerAcked) throw new Error('Header ACK timeout for layer ' + layerType);
 
   // 批量发送
-  const data = new Uint8Array(bitmapData);
+  const data = new Uint8Array(payload.data);
   let offset = 0, seq = 0;
 
   while (offset < data.length) {

@@ -43,14 +43,18 @@ uint8_t bmp_black[LAYER_SIZE];
 uint8_t bmp_red[LAYER_SIZE];
 
 // ---- Transfer state ----
-volatile bool     header_ok    = false;
-volatile uint8_t  total_layers = 0;
-volatile uint8_t  rx_layer     = 0;
-volatile uint32_t rx_size      = 0;
-volatile uint32_t rx_offset    = 0;
-volatile bool     layer_done[2] = {false, false};
-volatile bool     do_refresh   = false;
-static uint32_t   progress_mark = 0;  // for sparse progress logging
+volatile bool     header_ok      = false;
+volatile uint8_t  total_layers   = 0;
+volatile uint8_t  rx_layer       = 0;
+volatile uint32_t rx_size        = 0;
+volatile uint32_t rx_offset      = 0;
+volatile bool     layer_done[2]  = {false, false};
+volatile bool     do_refresh     = false;
+volatile bool     rle_compressed = false;   // 当前图层是否 RLE 压缩
+static uint32_t   progress_mark  = 0;       // for sparse progress logging
+
+// ★ RLE 解压临时缓冲区（压缩数据先写入图层 buffer，解压时以此为临时输出）
+static uint8_t rle_temp[LAYER_SIZE];
 
 // ---- BLE objects ----
 static BLEServer*         pServer = nullptr;
@@ -58,6 +62,23 @@ static BLEService*        pService = nullptr;
 static BLECharacteristic* pCharRX = nullptr;
 static BLECharacteristic* pCharTX = nullptr;
 static bool               deviceConnected = false;
+
+// ============================================================
+// RLE 解压：字节级 run-length encoding
+// 格式：[count-1][value] 对，count 范围 1-256，存储为 0-255
+// ============================================================
+void decompressRLE(const uint8_t* src, size_t src_len, uint8_t* dst, size_t dst_size)
+{
+    size_t di = 0, si = 0;
+    while (si < src_len && di < dst_size) {
+        uint16_t count = (uint16_t)src[si] + 1;   // 1-256，uint16 防止溢出
+        uint8_t  value = src[si + 1];
+        si += 2;
+        for (uint16_t i = 0; i < count && di < dst_size; i++) {
+            dst[di++] = value;
+        }
+    }
+}
 
 // ============================================================
 // BLE Write callback: App → MCU
@@ -69,19 +90,20 @@ class RxCallback : public BLECharacteristicCallbacks {
         size_t len = val.length();
         if (len == 0) return;
 
-        // --- Header packet: [AA 55] [total_layers] [layer] [size 4B LE] [chunks 2B LE] ---
+        // --- Header packet: [AA 55] [total_layers] [layer|flags] [size 4B LE] [chunks 2B LE] ---
         if (len >= 10 && d[0] == MAGIC_0 && d[1] == MAGIC_1) {
-            total_layers = d[2];
-            rx_layer     = d[3];
-            rx_size      = d[4] | ((uint32_t)d[5] << 8) | ((uint32_t)d[6] << 16) | ((uint32_t)d[7] << 24);
+            total_layers   = d[2];
+            rle_compressed = (d[3] & 0x80) != 0;   // bit7 = RLE compression flag
+            rx_layer       = d[3] & 0x7F;           // 真实图层号 0/1
+            rx_size        = d[4] | ((uint32_t)d[5] << 8) | ((uint32_t)d[6] << 16) | ((uint32_t)d[7] << 24);
             uint16_t chunks = d[8] | ((uint16_t)d[9] << 8);
-            rx_offset    = 0;
-            header_ok    = true;
-            progress_mark = 0;
+            rx_offset      = 0;
+            header_ok      = true;
+            progress_mark  = 0;
 
             // 传输期间减少日志，仅打印 Header 摘要
-            // Serial.printf("[RX] Header: layers=%d layer=%d size=%u chunks=%u\n",
-            //               total_layers, rx_layer, rx_size, chunks);
+            // Serial.printf("[RX] Header: layers=%d layer=%d rle=%d size=%u chunks=%u\n",
+            //               total_layers, rx_layer, rle_compressed, rx_size, chunks);
 
             uint8_t ack[] = {ACK_HEADER};
             pCharTX->setValue(ack, 1);
@@ -106,13 +128,24 @@ class RxCallback : public BLECharacteristicCallbacks {
             // }
 
             if (rx_offset >= rx_size) {
+                uint8_t* layer_buf = (rx_layer == 0) ? bmp_black : bmp_red;
+
+                // ★ RLE 解压
+                if (rle_compressed) {
+                    decompressRLE(layer_buf, rx_offset, rle_temp, LAYER_SIZE);
+                    memcpy(layer_buf, rle_temp, LAYER_SIZE);
+                    Serial.printf("[RX] Layer %d decompressed: %u -> %u bytes\n",
+                                  rx_layer, rx_offset, LAYER_SIZE);
+                } else {
+                    Serial.printf("[RX] Layer %d complete (%u bytes)\n", rx_layer, rx_offset);
+                }
+
                 layer_done[rx_layer] = true;
                 header_ok = false;
 
                 uint8_t done[] = {ACK_LAYER_DONE, rx_layer};
                 pCharTX->setValue(done, 2);
                 pCharTX->notify();
-                Serial.printf("[RX] Layer %d complete (%u bytes)\n", rx_layer, rx_offset);
 
                 // All layers received?
                 if (total_layers == 1 || (layer_done[0] && layer_done[1])) {
