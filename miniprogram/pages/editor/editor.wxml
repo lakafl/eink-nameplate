@@ -1,96 +1,158 @@
 <view class="container">
-  <!-- Screen size selector -->
-  <view class="card size-card">
-    <text class="card-title">屏幕尺寸</text>
-    <picker mode="selector" range="{{displaySizes}}" range-key="label"
-      value="{{displayIndex}}" bindchange="onSizeChange">
-      <view class="picker-row">
-        <text class="picker-text">{{displaySizes[displayIndex].label}}</text>
-        <text class="picker-arrow">&#9662;</text>
+  <!-- Template selector — visual cards -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">模板样式</text>
+      <text class="section-subtitle">选择座牌排版风格</text>
+    </view>
+    <scroll-view class="template-scroll" scroll-x="true" enhanced show-scrollbar="{{false}}">
+      <view class="template-card {{templateId === item.id ? 'template-card-active' : ''}}"
+        wx:for="{{templates}}" wx:key="id"
+        bindtap="onTemplateSelect" data-index="{{index}}">
+        <!-- CSS mini-preview of template -->
+        <view class="template-thumb {{item.id}}">
+          <view class="thumb-line thumb-top" wx:if="{{item.id === 'classic' || item.id === 'minimal' || item.id === 'bold'}}"></view>
+          <view class="thumb-line thumb-center {{item.id}}"></view>
+          <view class="thumb-line thumb-bottom" wx:if="{{item.id === 'classic' || item.id === 'minimal' || item.id === 'bold'}}"></view>
+          <view class="thumb-divider" wx:if="{{item.id === 'business'}}"></view>
+        </view>
+        <text class="template-name">{{item.name}}</text>
+        <text class="template-desc">{{item.desc}}</text>
+        <view class="template-check" wx:if="{{templateId === item.id}}">✓</view>
       </view>
-    </picker>
+    </scroll-view>
   </view>
 
-  <!-- Template selector -->
-  <view class="card template-card">
-    <text class="card-title">模板样式</text>
-    <picker mode="selector" range="{{templates}}" range-key="name"
-      value="{{templateIndex}}" bindchange="onTemplateChange">
-      <view class="picker-row">
-        <view class="template-preview-dot" style="background:{{templates[templateIndex].preview}}"></view>
-        <text class="picker-text">{{templates[templateIndex].name}}</text>
-        <text class="picker-arrow">&#9662;</text>
-      </view>
-    </picker>
-    <text class="template-desc">{{templates[templateIndex].desc}}</text>
-  </view>
-
-  <!-- Form card -->
-  <view class="card">
-    <text class="card-title">座牌内容</text>
-
-    <view class="input-group">
-      <text class="input-label">单位名称</text>
-      <input class="input" placeholder="如：西南大学" value="{{topText}}"
-        bindinput="onTopInput" maxlength="30"/>
-      <view class="scale-row">
-        <text class="scale-label">字号</text>
-        <slider class="scale-slider" min="0.5" max="2.0" step="0.05" value="{{topScale}}"
-          bindchange="onTopScaleChange" block-size="18" activeColor="#4285F4"/>
-        <text class="scale-val">{{Math.round(topScale * 100)}}%</text>
-      </view>
+  <!-- Display size -->
+  <view class="section size-section">
+    <view class="section-header">
+      <text class="section-title">屏幕尺寸</text>
     </view>
-
-    <view class="input-group">
-      <text class="input-label">姓名</text>
-      <input class="input input-center" placeholder="如：张三" value="{{centerText}}"
-        bindinput="onCenterInput" maxlength="10"/>
-      <view class="scale-row">
-        <text class="scale-label">字号</text>
-        <slider class="scale-slider" min="0.5" max="2.0" step="0.05" value="{{centerScale}}"
-          bindchange="onCenterScaleChange" block-size="18" activeColor="#34A853"/>
-        <text class="scale-val">{{Math.round(centerScale * 100)}}%</text>
-      </view>
-    </view>
-
-    <view class="input-group input-group-last">
-      <text class="input-label">职务</text>
-      <input class="input input-right" placeholder="如：学生" value="{{bottomText}}"
-        bindinput="onBottomInput" maxlength="20"/>
-      <view class="scale-row">
-        <text class="scale-label">字号</text>
-        <slider class="scale-slider" min="0.5" max="2.0" step="0.05" value="{{bottomScale}}"
-          bindchange="onBottomScaleChange" block-size="18" activeColor="#EA4335"/>
-        <text class="scale-val">{{Math.round(bottomScale * 100)}}%</text>
+    <view class="size-row">
+      <view class="size-chip {{displayIndex === index ? 'size-chip-active' : ''}}"
+        wx:for="{{displaySizes}}" wx:key="label"
+        bindtap="onSizeChange" data-index="{{index}}">
+        <text class="size-chip-label">{{item.label}}</text>
+        <text class="size-chip-dims">{{item.width}}×{{item.height}}</text>
       </view>
     </view>
   </view>
 
-  <!-- Preview card -->
-  <view class="card">
-    <text class="card-title">预览</text>
-    <view class="preview-box" style="aspect-ratio:{{epdWidth}}/{{epdHeight}}">
-      <canvas type="2d" id="editCanvas" class="preview-canvas"></canvas>
+  <!-- Compact content form — single row per field -->
+  <view class="section section-compact">
+    <view class="section-header section-header-compact">
+      <text class="section-title">座牌内容</text>
+    </view>
+
+    <!-- Unit name -->
+    <view class="field-row {{highlightField === 'top' ? 'field-row-hl' : ''}}">
+      <text class="field-label">单位</text>
+      <input class="field-input-compact" placeholder="如：西南大学" value="{{topText}}"
+        bindinput="onTopInput" maxlength="30"
+        placeholder-style="color: var(--text-tertiary);"/>
+    </view>
+    <view class="slider-row">
+      <slider class="slider-compact" min="0.5" max="2.0" step="0.05"
+        value="{{topScale}}" bindchange="onTopScaleChange"
+        block-size="16" activeColor="#1A73E8" backgroundColor="#E8EAED"/>
+      <text class="slider-val">{{Math.round(topScale * 100)}}%</text>
+    </view>
+
+    <!-- Center name -->
+    <view class="field-row {{highlightField === 'center' ? 'field-row-hl' : ''}}">
+      <text class="field-label">姓名</text>
+      <input class="field-input-compact field-input-bold" placeholder="如：张三" value="{{centerText}}"
+        bindinput="onCenterInput" maxlength="10"
+        placeholder-style="color: var(--text-tertiary);"/>
+    </view>
+    <view class="slider-row">
+      <slider class="slider-compact" min="0.5" max="2.0" step="0.05"
+        value="{{centerScale}}" bindchange="onCenterScaleChange"
+        block-size="16" activeColor="#1A73E8" backgroundColor="#E8EAED"/>
+      <text class="slider-val">{{Math.round(centerScale * 100)}}%</text>
+    </view>
+
+    <!-- Title -->
+    <view class="field-row {{highlightField === 'bottom' ? 'field-row-hl' : ''}}">
+      <text class="field-label">职务</text>
+      <input class="field-input-compact" placeholder="如：学生" value="{{bottomText}}"
+        bindinput="onBottomInput" maxlength="20"
+        placeholder-style="color: var(--text-tertiary);"/>
+    </view>
+    <view class="slider-row slider-row-last">
+      <slider class="slider-compact" min="0.5" max="2.0" step="0.05"
+        value="{{bottomScale}}" bindchange="onBottomScaleChange"
+        block-size="16" activeColor="#1A73E8" backgroundColor="#E8EAED"/>
+      <text class="slider-val">{{Math.round(bottomScale * 100)}}%</text>
+    </view>
+  </view>
+
+  <!-- Preview -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">实时预览</text>
+      <view class="preview-label">点击预览定位编辑 ↘</view>
+    </view>
+    <view class="preview-frame">
+      <view class="preview-screen" style="aspect-ratio:{{epdWidth}}/{{epdHeight}}">
+        <canvas type="2d" id="editCanvas" class="preview-canvas"></canvas>
+        <!-- Transparent touch zones matching each template's layout -->
+        <view class="touch-overlay" wx:if="{{templateId !== 'business'}}">
+          <view class="touch-zone touch-top"
+            style="height:{{templateId === 'classic' ? 14.28 : templateId === 'bold' ? 13 : 14}}%"
+            bindtap="focusField" data-field="top"></view>
+          <view class="touch-zone touch-center"
+            style="height:{{templateId === 'classic' ? 71.44 : templateId === 'bold' ? 72 : 66}}%"
+            bindtap="focusField" data-field="center"></view>
+          <view class="touch-zone touch-bottom"
+            style="height:{{templateId === 'classic' ? 14.28 : templateId === 'bold' ? 15 : 20}}%"
+            bindtap="focusField" data-field="bottom"></view>
+        </view>
+        <!-- Business template: left/right split -->
+        <view class="touch-overlay touch-horizontal" wx:else>
+          <view class="touch-zone-h"
+            style="width:44%"
+            bindtap="focusField" data-field="center"></view>
+          <view class="touch-zone-h"
+            style="width:56%;display:flex;flex-direction:column">
+            <view class="touch-zone"
+              style="height:45%"
+              bindtap="focusField" data-field="top"></view>
+            <view class="touch-zone"
+              style="height:55%"
+              bindtap="focusField" data-field="bottom"></view>
+          </view>
+        </view>
+      </view>
     </view>
   </view>
 
   <!-- Send button -->
-  <button class="fab send-fab" bindtap="sendToDevice" disabled="{{sending || !bleReady}}">
-    <text class="fab-text">{{sending ? '发送中 ' + progress + '%' : '发送到设备'}}</text>
+  <button class="send-button" bindtap="sendToDevice"
+    disabled="{{sending || !bleReady}}"
+    hover-class="send-button-pressed">
+    <text class="send-text">{{sending ? '发送中 ' + progress + '%' : '发送到设备'}}</text>
   </button>
 
-  <!-- Progress -->
+  <!-- Progress bar -->
   <view class="progress-wrap" wx:if="{{sending}}">
+    <view class="progress-label">传输进度</view>
     <view class="progress-track">
       <view class="progress-fill" style="width:{{progress}}%"></view>
+      <view class="progress-glow" style="left:{{progress}}%"></view>
     </view>
   </view>
 
-  <!-- Status chip -->
-  <view class="chip {{statusType}}" wx:if="{{statusMsg}}">
-    <text>{{statusMsg}}</text>
+  <!-- Status banner -->
+  <view class="status-banner {{statusType}}" wx:if="{{statusMsg}}">
+    <text class="status-icon">{{statusType === 'success' ? '✓' : statusType === 'error' ? '✕' : 'ℹ'}}</text>
+    <text class="status-text">{{statusMsg}}</text>
   </view>
 
   <!-- Disconnect -->
-  <view class="text-btn" bindtap="goBack">断开连接</view>
+  <view class="disconnect-btn" bindtap="goBack" hover-class="disconnect-btn-pressed">
+    <text class="disconnect-text">断开连接</text>
+  </view>
+
+  <view class="safe-bottom"></view>
 </view>

@@ -1,59 +1,94 @@
 <view class="container">
   <!-- Status card -->
-  <view class="card status-card">
-    <view class="status-dot {{connected ? 'on' : ''}}"></view>
+  <view class="status-banner {{connected ? 'connected' : ''}}">
+    <view class="status-indicator">
+      <view class="status-dot"></view>
+      <view class="status-ripple" wx:if="{{connected}}"></view>
+    </view>
     <view class="status-body">
-      <text class="status-title">{{connected ? '已连接' : '未连接'}}</text>
-      <text class="status-sub" wx:if="{{connected}}">{{deviceName}}</text>
-      <text class="status-sub" wx:else>查找附近的设备</text>
+      <text class="status-title">{{connected ? '设备已连接' : '等待连接'}}</text>
+      <text class="status-sub">{{connected ? deviceName : '搜索附近的电子座牌设备'}}</text>
     </view>
   </view>
 
-  <!-- Scan area -->
-  <view class="card scan-card">
-    <text class="card-title">蓝牙设备</text>
-    <text class="card-desc">扫描电子座牌</text>
+  <!-- Connected action card — below status -->
+  <view class="action-card" wx:if="{{connected}}" bindtap="goEditor" hover-class="action-card-pressed">
+    <view class="action-card-left">
+      <text class="action-card-title">编辑座牌</text>
+      <text class="action-card-desc">自定义座牌模板和内容</text>
+    </view>
+    <text class="action-card-arrow">→</text>
+  </view>
+
+  <!-- Device scan panel -->
+  <view class="scan-panel">
+    <view class="panel-header">
+      <text class="panel-title">蓝牙设备</text>
+      <view class="panel-badge" wx:if="{{devices.length > 0}}">
+        <text class="badge-text">{{devices.length}}</text>
+      </view>
+    </view>
+    <text class="panel-desc">扫描 ESP32 电子座牌</text>
 
     <!-- Device list -->
     <view class="device-list" wx:if="{{devices.length > 0}}">
-      <view class="device-item" wx:for="{{devices}}" wx:key="deviceId"
+      <view class="device-card" wx:for="{{devices}}" wx:key="deviceId"
         bindtap="connectDevice" data-device="{{item}}">
-        <view class="device-icon">
-          <text class="device-icon-text">BT</text>
+        <view class="device-avatar">
+          <text class="device-avatar-text">BLE</text>
         </view>
         <view class="device-info">
           <text class="device-name">{{item.name || '未知设备'}}</text>
-          <text class="device-meta">{{item.RSSI}} dBm</text>
+          <view class="device-signal">
+            <view class="signal-bars">
+              <view class="signal-bar {{item.RSSI > -50 ? 'active' : ''}} s1"></view>
+              <view class="signal-bar {{item.RSSI > -60 ? 'active' : ''}} s2"></view>
+              <view class="signal-bar {{item.RSSI > -70 ? 'active' : ''}} s3"></view>
+              <view class="signal-bar {{item.RSSI > -80 ? 'active' : ''}} s4"></view>
+            </view>
+            <text class="device-meta">{{item.RSSI}} dBm</text>
+          </view>
         </view>
-        <text class="device-arrow">&#8250;</text>
+        <text class="device-connect-text">连接</text>
       </view>
     </view>
 
-    <!-- Empty -->
-    <view class="empty-state" wx:if="{{!scanning && devices.length === 0 && !connected}}">
-      <text class="empty-text">未发现设备</text>
-      <text class="empty-hint">请确保设备已上电</text>
+    <!-- Radar scanning animation -->
+    <view class="radar-container" wx:if="{{scanning}}">
+      <view class="radar-scan">
+        <view class="radar-ring r1"></view>
+        <view class="radar-ring r2"></view>
+        <view class="radar-ring r3"></view>
+        <view class="radar-dot"></view>
+      </view>
+      <text class="radar-text">正在扫描...</text>
     </view>
 
-    <!-- Scanning indicator -->
-    <view class="scanning-indicator" wx:if="{{scanning}}">
-      <view class="scanning-pulse"></view>
-      <text class="scanning-text">正在扫描...</text>
+    <!-- Empty state -->
+    <view class="empty-state" wx:if="{{!scanning && devices.length === 0 && !connected}}">
+      <view class="empty-icon-container">
+        <view class="empty-icon">
+          <text class="empty-icon-text">📡</text>
+        </view>
+      </view>
+      <text class="empty-title">未发现设备</text>
+      <text class="empty-desc">请确保 ESP32 设备已开机并处于蓝牙广播模式</text>
     </view>
   </view>
 
-  <!-- Scan button -->
-  <button class="fab" bindtap="startScanning" disabled="{{scanning || connected}}">
-    <text class="fab-text">{{scanning ? '扫描中' : '扫描设备'}}</text>
+  <!-- Primary scan button -->
+  <button class="fab primary-fab" bindtap="startScanning"
+    disabled="{{scanning || connected}}"
+    hover-class="fab-pressed">
+    <view class="fab-content">
+      <text class="fab-icon" wx:if="{{!scanning && !connected}}">⊕</text>
+      <text class="fab-label">{{scanning ? '扫描中' : (connected ? '已连接' : '扫描设备')}}</text>
+    </view>
   </button>
 
-  <!-- Next button -->
-  <button class="fab next-fab" wx:if="{{connected}}" bindtap="goEditor">
-    <text class="fab-text">编辑座牌</text>
-  </button>
-
-  <!-- Error -->
-  <view class="snackbar" wx:if="{{errorMsg}}">
-    <text>{{errorMsg}}</text>
+  <!-- Error snackbar -->
+  <view class="snackbar {{errorMsg ? 'snackbar-show' : ''}}">
+    <text class="snackbar-icon">⚠</text>
+    <text class="snackbar-text">{{errorMsg}}</text>
   </view>
 </view>

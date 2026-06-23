@@ -1,4 +1,6 @@
 {
   "usingComponents": {},
-  "navigationBarTitleText": "连接设备"
+  "navigationBarTitleText": "设备连接",
+  "navigationBarBackgroundColor": "#FAFAFA",
+  "navigationBarTextStyle": "black"
 }

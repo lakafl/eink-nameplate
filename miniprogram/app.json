@@ -5,7 +5,7 @@
   ],
   "window": {
     "navigationBarTitleText": "电子座牌",
-    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarBackgroundColor": "#FAFAFA",
     "navigationBarTextStyle": "black"
   },
   "permission": {

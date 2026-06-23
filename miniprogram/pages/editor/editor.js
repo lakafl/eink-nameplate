@@ -46,16 +46,16 @@ const Renderers = {
 
     // 单位 — 顶部左对齐，预留 90% 宽度换行
     if (top) {
-      ctx.fillStyle = '#000000';
+      ctx.fillStyle = '#202124';
       const fs = Math.floor(hTop * 0.7 * (scales.topScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `600 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'left';
       ctx.textBaseline = 'top';
       const maxW = w - pad * 2;
       const lines = wrapText(ctx, top, maxW);
-      const lineH = Math.round(fs * 1.25);
+      const lineH = Math.round(fs * 1.3);
       const totalH = lines.length * lineH;
-      const startY = hTop > totalH ? Math.round((hTop - totalH) / 2) : 2;
+      const startY = hTop > totalH ? Math.round((hTop - totalH) / 2) : 4;
       for (let i = 0; i < lines.length; i++) {
         ctx.fillText(lines[i], pad, startY + i * lineH);
       }
@@ -63,16 +63,16 @@ const Renderers = {
 
     // 姓名 — 红色区域居中
     if (center) {
-      ctx.fillStyle = '#FF0000';
+      ctx.fillStyle = '#D93025';
       ctx.fillRect(0, hTop, w, hCenter);
       ctx.fillStyle = '#FFFFFF';
       const fs = Math.floor(hCenter * 0.6 * (scales.centerScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `600 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       const maxW = w - pad * 2;
       const lines = wrapText(ctx, center, maxW);
-      const lineH = Math.round(fs * 1.25);
+      const lineH = Math.round(fs * 1.3);
       const totalH = lines.length * lineH;
       const startY = hTop + Math.round((hCenter - totalH) / 2) + Math.round(lineH / 2);
       for (let i = 0; i < lines.length; i++) {
@@ -82,14 +82,14 @@ const Renderers = {
 
     // 职务 — 底部右对齐
     if (bottom) {
-      ctx.fillStyle = '#000000';
+      ctx.fillStyle = '#202124';
       const fs = Math.floor(hBottom * 0.7 * (scales.bottomScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `600 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'right';
       ctx.textBaseline = 'bottom';
       const maxW = w - pad * 2;
       const lines = wrapText(ctx, bottom, maxW);
-      const lineH = Math.round(fs * 1.25);
+      const lineH = Math.round(fs * 1.3);
       const totalH = lines.length * lineH;
       const startY = Math.round(h * 0.987) - totalH + lineH;
       for (let i = 0; i < lines.length; i++) {
@@ -108,14 +108,14 @@ const Renderers = {
 
     // 单位 — 顶部居中
     if (top) {
-      ctx.fillStyle = '#1a1a1a';
+      ctx.fillStyle = '#3C4043';
       const fs = Math.floor(h * 0.07 * (scales.topScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `500 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
       const maxW = w - pad * 2;
       const lines = wrapText(ctx, top, maxW);
-      const lineH = Math.round(fs * 1.3);
+      const lineH = Math.round(fs * 1.4);
       const totalH = lines.length * lineH;
       const startY = Math.max(Math.round(h * 0.04), Math.round(h * 0.08) - Math.round(totalH / 2));
       for (let i = 0; i < lines.length; i++) {
@@ -125,14 +125,14 @@ const Renderers = {
 
     // 姓名 — 大号居中 + 装饰线
     if (center) {
-      ctx.fillStyle = '#000000';
+      ctx.fillStyle = '#202124';
       const fs = Math.floor(h * 0.22 * (scales.centerScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `600 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       const maxW = w - pad * 2;
       const lines = wrapText(ctx, center, maxW);
-      const lineH = Math.round(fs * 1.25);
+      const lineH = Math.round(fs * 1.3);
       const totalH = lines.length * lineH;
       const startY = midY - Math.round(totalH / 2) + Math.round(lineH / 2);
       for (let i = 0; i < lines.length; i++) {
@@ -143,7 +143,7 @@ const Renderers = {
       const txtW = Math.min(ctx.measureText(lines[0]).width, maxW);
       const lineY = startY + totalH + Math.round(fs * 0.3);
       if (lineY < h - 20) {
-        ctx.strokeStyle = '#999999';
+        ctx.strokeStyle = '#DADCE0';
         ctx.lineWidth = Math.max(1, Math.round(h / 300));
         ctx.beginPath();
         ctx.moveTo(w / 2 - Math.min(txtW / 2 + 40, w * 0.3), lineY);
@@ -154,14 +154,14 @@ const Renderers = {
 
     // 职务 — 底部居中
     if (bottom) {
-      ctx.fillStyle = '#3a3a3a';
+      ctx.fillStyle = '#5F6368';
       const fs = Math.floor(h * 0.06 * (scales.bottomScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `500 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
       const maxW = w - pad * 2;
       const lines = wrapText(ctx, bottom, maxW);
-      const lineH = Math.round(fs * 1.3);
+      const lineH = Math.round(fs * 1.4);
       const totalH = lines.length * lineH;
       const endY = Math.round(h * 0.94);
       for (let i = lines.length - 1; i >= 0; i--) {
@@ -172,15 +172,15 @@ const Renderers = {
 
   // 双栏名片
   business(ctx, w, h, top, center, bottom, scales) {
-    const splitX = Math.round(w * 0.42);
+    const splitX = Math.round(w * 0.44);
     const pad    = Math.round(w * 0.03);
 
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, w, h);
 
     // 分隔线
-    ctx.strokeStyle = '#AAAAAA';
-    ctx.lineWidth = Math.max(1, Math.round(h / 300));
+    ctx.strokeStyle = '#5F6368';
+    ctx.lineWidth = Math.max(3, Math.round(h / 120));
     ctx.beginPath();
     ctx.moveTo(splitX, Math.round(h * 0.08));
     ctx.lineTo(splitX, Math.round(h * 0.92));
@@ -188,14 +188,14 @@ const Renderers = {
 
     // 左栏 — 姓名
     if (center) {
-      ctx.fillStyle = '#000000';
+      ctx.fillStyle = '#202124';
       const fs = Math.floor(h * 0.2 * (scales.centerScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `600 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       const maxW = splitX - pad * 2;
       const lines = wrapText(ctx, center, maxW);
-      const lineH = Math.round(fs * 1.25);
+      const lineH = Math.round(fs * 1.3);
       const totalH = lines.length * lineH;
       const startY = Math.round((h - totalH) / 2) + Math.round(lineH / 2);
       for (let i = 0; i < lines.length; i++) {
@@ -208,13 +208,13 @@ const Renderers = {
     const rightW  = w - rightX - pad;
 
     if (top) {
-      ctx.fillStyle = '#111111';
+      ctx.fillStyle = '#202124';
       const fs = Math.floor(h * 0.09 * (scales.topScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `600 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'left';
       ctx.textBaseline = 'top';
       const lines = wrapText(ctx, top, rightW);
-      const lineH = Math.round(fs * 1.3);
+      const lineH = Math.round(fs * 1.4);
       const startY = Math.round(h * 0.22);
       for (let i = 0; i < lines.length; i++) {
         ctx.fillText(lines[i], rightX, startY + i * lineH);
@@ -222,17 +222,16 @@ const Renderers = {
     }
 
     if (bottom) {
-      ctx.fillStyle = '#3a3a3a';
+      ctx.fillStyle = '#5F6368';
       const fs = Math.floor(h * 0.07 * (scales.bottomScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `500 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'left';
       ctx.textBaseline = 'top';
       const lines = wrapText(ctx, bottom, rightW);
-      const lineH = Math.round(fs * 1.3);
-      // 放在右栏下半部分
+      const lineH = Math.round(fs * 1.4);
       const topLines = top ? wrapText(ctx, top, rightW) : [];
       const topFs    = Math.floor(h * 0.09 * (scales.topScale || 1));
-      const topEndY  = Math.round(h * 0.22) + topLines.length * Math.round(topFs * 1.3) + Math.round(h * 0.04);
+      const topEndY  = Math.round(h * 0.22) + topLines.length * Math.round(topFs * 1.4) + Math.round(h * 0.04);
       const startY   = Math.max(topEndY, Math.round(h * 0.45));
       for (let i = 0; i < lines.length; i++) {
         ctx.fillText(lines[i], rightX, startY + i * lineH);
@@ -243,19 +242,19 @@ const Renderers = {
   // 醒目红幅
   bold(ctx, w, h, top, center, bottom, scales) {
     const pad = Math.round(w * 0.05);
-    ctx.fillStyle = '#CC0000';
+    ctx.fillStyle = '#D93025';
     ctx.fillRect(0, 0, w, h);
 
     // 单位
     if (top) {
-      ctx.fillStyle = '#FFFFFF';
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
       const fs = Math.floor(h * 0.07 * (scales.topScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `500 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
       const maxW = w - pad * 2;
       const lines = wrapText(ctx, top, maxW);
-      const lineH = Math.round(fs * 1.3);
+      const lineH = Math.round(fs * 1.4);
       const totalH = lines.length * lineH;
       const startY = Math.round(h * 0.06);
       for (let i = 0; i < lines.length; i++) {
@@ -267,12 +266,12 @@ const Renderers = {
     if (center) {
       ctx.fillStyle = '#FFFFFF';
       const fs = Math.floor(h * 0.28 * (scales.centerScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `700 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       const maxW = w - pad * 2;
       const lines = wrapText(ctx, center, maxW);
-      const lineH = Math.round(fs * 1.2);
+      const lineH = Math.round(fs * 1.25);
       const totalH = lines.length * lineH;
       const startY = Math.round((h - totalH) / 2) + Math.round(lineH / 2);
       for (let i = 0; i < lines.length; i++) {
@@ -282,14 +281,14 @@ const Renderers = {
 
     // 职务
     if (bottom) {
-      ctx.fillStyle = '#FFFFFF';
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
       const fs = Math.floor(h * 0.06 * (scales.bottomScale || 1));
-      ctx.font = `bold ${fs}px sans-serif`;
+      ctx.font = `500 ${fs}px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
       const maxW = w - pad * 2;
       const lines = wrapText(ctx, bottom, maxW);
-      const lineH = Math.round(fs * 1.3);
+      const lineH = Math.round(fs * 1.4);
       const totalH = lines.length * lineH;
       const endY = Math.round(h * 0.94);
       for (let i = lines.length - 1; i >= 0; i--) {
@@ -325,12 +324,16 @@ Page({
     // 字号缩放
     topScale: 1.0,
     centerScale: 1.0,
-    bottomScale: 1.0
+    bottomScale: 1.0,
+
+    // 高亮字段：null | 'top' | 'center' | 'bottom'
+    highlightField: null
   },
 
   _canvas: null,
   _ctx: null,
   _drawTimer: null,
+  _highlightTimer: null,
 
   onLoad() {
     const app = getApp();
@@ -355,7 +358,7 @@ Page({
     ble.setDisplayConfig(cur.width, cur.height);
 
     if (!ble.isConnected()) {
-      this.setData({ statusMsg: '未连接设备，请先返回连接', statusType: 'error' });
+      this.setData({ statusMsg: '未连接设备，请先返回扫描页连接设备', statusType: 'error' });
     }
   },
 
@@ -365,11 +368,74 @@ Page({
 
   onUnload() {
     if (this._drawTimer) clearTimeout(this._drawTimer);
+    if (this._highlightTimer) clearTimeout(this._highlightTimer);
   },
 
-  // ---- Display size ----
+  // ---- Preview tap → highlight corresponding field ----
+  focusField(e) {
+    const field = e.currentTarget.dataset.field;
+    if (!field) return;
+
+    this.setData({ highlightField: field });
+
+    // Auto-dismiss after 2s
+    if (this._highlightTimer) clearTimeout(this._highlightTimer);
+    this._highlightTimer = setTimeout(() => {
+      this.setData({ highlightField: null });
+    }, 2000);
+  },
+
+  // ---- Preview canvas tap → highlight corresponding field ----
+  onPreviewTap(e) {
+    // Replaced by direct touch-zone overlay; kept for backward compat
+    const { epdWidth, epdHeight, templateId } = this.data;
+    const touchX = e.detail.x;
+    const touchY = e.detail.y;
+    const query = wx.createSelectorQuery();
+    query.select('#editCanvas')
+      .fields({ size: true })
+      .exec((res) => {
+        if (!res || !res[0]) return;
+        const { width: canvasW, height: canvasH } = res[0];
+        const x = (touchX / canvasW) * epdWidth;
+        const y = (touchY / canvasH) * epdHeight;
+        let field = null;
+        const unit = Math.floor(epdHeight / 7);
+        switch (templateId) {
+          case 'classic':
+            if (y < unit) field = 'top';
+            else if (y < epdHeight - unit) field = 'center';
+            else field = 'bottom';
+            break;
+          case 'minimal':
+            if (y < epdHeight * 0.14) field = 'top';
+            else if (y < epdHeight * 0.80) field = 'center';
+            else field = 'bottom';
+            break;
+          case 'business':
+            if (x < epdWidth * 0.44) field = 'center';
+            else if (y < epdHeight * 0.45) field = 'top';
+            else field = 'bottom';
+            break;
+          case 'bold':
+            if (y < epdHeight * 0.13) field = 'top';
+            else if (y < epdHeight * 0.85) field = 'center';
+            else field = 'bottom';
+            break;
+        }
+        if (field) {
+          this.setData({ highlightField: field });
+          if (this._highlightTimer) clearTimeout(this._highlightTimer);
+          this._highlightTimer = setTimeout(() => {
+            this.setData({ highlightField: null });
+          }, 2000);
+        }
+      });
+  },
+
+  // ---- Display size (chip tap) ----
   onSizeChange(e) {
-    const idx = parseInt(e.detail.value);
+    const idx = parseInt(e.currentTarget.dataset.index);
     const app = getApp();
     const sizes = app.globalData.displaySizes;
     const cur = sizes[idx];
@@ -385,7 +451,20 @@ Page({
     this.initCanvas();
   },
 
-  // ---- Template ----
+  // ---- Template (visual card tap) ----
+  onTemplateSelect(e) {
+    const idx = parseInt(e.currentTarget.dataset.index);
+    const app = getApp();
+    const tmpls = app.globalData.templates;
+    const tpl = tmpls[idx];
+
+    app.globalData.templateIndex = idx;
+    this.setData({ templateIndex: idx, templateId: tpl.id });
+
+    if (this._ctx) this.drawPreview();
+  },
+
+  // Keep picker handler for backward compatibility
   onTemplateChange(e) {
     const idx = parseInt(e.detail.value);
     const app = getApp();
@@ -412,7 +491,7 @@ Page({
       .exec((res) => {
         if (!res || !res[0] || !res[0].node) {
           console.error('[Editor] Canvas node not available');
-          this.setData({ statusMsg: 'Canvas 不可用，请重试', statusType: 'error' });
+          this.setData({ statusMsg: 'Canvas 加载失败，请返回重试', statusType: 'error' });
           return;
         }
         this._canvas = res[0].node;
@@ -489,6 +568,13 @@ Page({
     if (!ble.isConnected()) { this.setData({ statusMsg: '未连接设备', statusType: 'error' }); return; }
     if (!this._ctx) { this.setData({ statusMsg: 'Canvas 未就绪', statusType: 'error' }); return; }
 
+    // Validate at least one field has content
+    const { topText, centerText, bottomText } = this.data;
+    if (!topText && !centerText && !bottomText) {
+      this.setData({ statusMsg: '请至少填入姓名', statusType: 'error' });
+      return;
+    }
+
     this.setData({ sending: true, progress: 0, statusMsg: '正在渲染...', statusType: 'info' });
     try {
       this.drawPreview();
@@ -496,9 +582,9 @@ Page({
       const { blackData, redData } = this.extractBitmap();
       this.setData({ statusMsg: '正在传输...', statusType: 'info' });
       await ble.sendBitmap(blackData, redData, (p) => {
-        this.setData({ progress: p.percent, statusMsg: `传输图层 ${p.layer + 1}... ${p.percent}%` });
+        this.setData({ progress: p.percent, statusMsg: '传输中 ' + p.percent + '%', statusType: 'info' });
       });
-      this.setData({ sending: false, progress: 100, statusMsg: '发送完成！屏幕正在刷新...', statusType: 'success' });
+      this.setData({ sending: false, progress: 100, statusMsg: '发送完成！墨水屏正在刷新...', statusType: 'success' });
       wx.showToast({ title: '发送成功', icon: 'success' });
     } catch (e) {
       console.error('[Editor] Send failed:', e);
@@ -515,8 +601,19 @@ Page({
   },
 
   goBack() {
-    ble.disconnect();
-    getApp().globalData.connected = false;
-    wx.navigateBack();
+    wx.showModal({
+      title: '断开连接',
+      content: '确定要断开与设备的连接吗？',
+      confirmText: '断开',
+      cancelText: '取消',
+      confirmColor: '#DC3545',
+      success: (res) => {
+        if (res.confirm) {
+          ble.disconnect();
+          getApp().globalData.connected = false;
+          wx.navigateBack();
+        }
+      }
+    });
   }
 });

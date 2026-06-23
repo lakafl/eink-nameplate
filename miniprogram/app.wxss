@@ -1,22 +1,120 @@
-page {
-  --google-blue: #4285F4;
-  --google-green: #34A853;
-  --google-yellow: #FBBC04;
-  --google-red: #EA4335;
-  --gray-50: #FAFAFA;
-  --gray-100: #F5F5F5;
-  --gray-200: #EEEEEE;
-  --gray-300: #E0E0E0;
-  --gray-500: #9E9E9E;
-  --gray-700: #616161;
-  --gray-900: #212121;
-  --radius: 16rpx;
-  --radius-sm: 8rpx;
-  --shadow: 0 2rpx 8rpx rgba(0,0,0,0.08);
-  --shadow-lg: 0 4rpx 16rpx rgba(0,0,0,0.12);
+/* ============================================================
+ * 电子座牌 — Design System v2.0
+ * Google Material Design 3 inspired + Tech-forward aesthetic
+ * ============================================================ */
 
-  background: var(--gray-50);
-  font-family: -apple-system, BlinkMacSystemFont, 'Google Sans', Roboto, 'PingFang SC', sans-serif;
-  font-size: 28rpx;
-  color: var(--gray-900);
+page {
+  /* ── Primary palette (Google Blue → refined electric blue) ── */
+  --primary:          #1A73E8;   /* Google Blue 600 — 主色 */
+  --primary-dark:     #1557B0;   /* Google Blue 800 — 按压态 */
+  --primary-light:    #D2E3FC;   /* Google Blue 100 — 浅色背景 */
+  --primary-container:#E8F0FE;   /* Google Blue 50  — 容器色 */
+  --on-primary:       #FFFFFF;   /* 主色上文字 */
+
+  /* ── Secondary ── */
+  --secondary:        #5F6368;   /* Google Grey 600 */
+  --secondary-container: #F1F3F4; /* Google Grey 50 */
+
+  /* ── Tertiary / Accent ── */
+  --tertiary:         #1E8E3E;   /* Google Green 600 — 成功/连接 */
+  --tertiary-container: #E6F4EA; /* Google Green 50 */
+  --error:            #DC3545;   /* 错误/断开 */
+  --error-container:  #FCE8E6;
+  --warning:          #F9AB00;   /* Google Yellow 600 */
+
+  /* ── Surface hierarchy ── */
+  --surface-0:        #FAFAFA;   /* 页面背景 — 最底层 */
+  --surface-1:        #FFFFFF;   /* 卡片 — 第1层 */
+  --surface-2:        #F8F9FA;   /* 次级容器 — 第2层 */
+  --surface-variant:  #F1F3F4;   /* 输入框/选中态背景 */
+
+  /* ── Content / On-surfaces ── */
+  --text-primary:     #202124;   /* Google Grey 900 — 主文字 */
+  --text-secondary:   #5F6368;   /* Google Grey 600 — 辅助文字 */
+  --text-tertiary:    #80868B;   /* Google Grey 500 — 占位/禁用 */
+  --text-inverse:     #FFFFFF;   /* 深色背景上的文字 */
+
+  /* ── Outline / Border ── */
+  --outline:          #DADCE0;   /* Google Grey 300 — 卡片边框 */
+  --outline-variant:  #E8EAED;   /* Google Grey 200 — 分割线 */
+  --outline-focus:    #1A73E8;   /* 聚焦边框 = primary */
+
+  /* ── Typography scale (Material 3 type scale) ── */
+  --fs-display:       44rpx;     /* Display Small — 页面标题 */
+  --fs-headline:      38rpx;     /* Headline Medium — 卡片标题 */
+  --fs-title:         32rpx;     /* Title Medium — 小节标题 */
+  --fs-body:          28rpx;     /* Body Large — 正文 */
+  --fs-body-sm:       26rpx;     /* Body Medium — 辅助正文 */
+  --fs-label:         24rpx;     /* Label Large — 标签/按钮 */
+  --fs-label-sm:      22rpx;     /* Label Small — 小标签 */
+  --fs-caption:       20rpx;     /* Caption — 元数据 */
+
+  --fw-regular:       400;
+  --fw-medium:        500;
+  --fw-semibold:      600;
+  --fw-bold:          700;
+
+  /* ── Letter spacing ── */
+  --ls-tight:         -0.4rpx;   /* 标题用 */
+  --ls-normal:        0rpx;
+  --ls-wide:          0.8rpx;    /* 按钮用 */
+
+  /* ── Shape / Radius ── */
+  --radius-xs:        8rpx;      /* 小元素：标签、标记 */
+  --radius-sm:        12rpx;     /* 输入框、小容器 */
+  --radius-md:        20rpx;     /* 卡片 */
+  --radius-lg:        28rpx;     /* 大卡片/面板 */
+  --radius-xl:        40rpx;     /* 按钮 */
+  --radius-full:      9999rpx;   /* 胶囊/药丸 */
+
+  /* ── Elevation / Shadow (Material 3) ── */
+  --elevation-0:      0 0 0 0 transparent;
+  --elevation-1:      0 1rpx 2rpx 0 rgba(60,64,67,0.08),
+                      0 1rpx 3rpx 1rpx rgba(60,64,67,0.06);
+  --elevation-2:      0 1rpx 2rpx 0 rgba(60,64,67,0.10),
+                      0 2rpx 6rpx 2rpx rgba(60,64,67,0.08);
+  --elevation-3:      0 1rpx 3rpx 0 rgba(60,64,67,0.12),
+                      0 4rpx 8rpx 3rpx rgba(60,64,67,0.10);
+  --elevation-4:      0 2rpx 3rpx 0 rgba(60,64,67,0.14),
+                      0 6rpx 10rpx 4rpx rgba(60,64,67,0.12);
+  --elevation-fab:    0 4rpx 8rpx 0 rgba(60,64,67,0.14),
+                      0 8rpx 16rpx 4rpx rgba(60,64,67,0.14);
+
+  /* ── Motion ── */
+  --ease-standard:    cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized:  cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-decelerate:  cubic-bezier(0, 0, 0, 1);
+  --ease-accelerate:  cubic-bezier(0.3, 0, 1, 1);
+  --duration-short:   150ms;
+  --duration-medium:  300ms;
+  --duration-long:    500ms;
+
+  /* ── Layout ── */
+  --page-padding:     24rpx;
+  --card-gap:         28rpx;
+  --card-padding:     36rpx;
+
+  /* ── Misc ── */
+  --backdrop-blur:    12rpx;
+
+  /* Apply page defaults */
+  background: var(--surface-0);
+  font-family: -apple-system, BlinkMacSystemFont, 'Google Sans', 'Google Sans Text', Roboto,
+               'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  color: var(--text-primary);
+  line-height: 1.5;
+  letter-spacing: var(--ls-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar minimal (iOS-style) ── */
+::-webkit-scrollbar {
+  width: 4rpx;
+  height: 4rpx;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--outline);
+  border-radius: var(--radius-full);
 }
